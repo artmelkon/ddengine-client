@@ -1,0 +1,11 @@
+.product {
+  font-size: 1.4rem;
+
+  & a {
+    color: #2EC4B6;
+  }
+  & a, & span {
+    padding: 2px 3px;
+  }
+
+}

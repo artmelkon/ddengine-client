@@ -1,0 +1,24 @@
+/* components */
+
+.form__input {
+    width: 95%;
+    max-width: 40rem;
+    padding: 2rem;
+    margin: 15rem auto;
+    font-size: 1.4rem;
+
+    & .title {
+    margin: 1rem;
+    }
+
+    & input, & textarea {
+        display: block;
+        width: 100%;
+    }
+
+    & input, & button, & textarea {
+        margin: 1rem auto;
+    }
+}
+
+

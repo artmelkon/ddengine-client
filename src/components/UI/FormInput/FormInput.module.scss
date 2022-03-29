@@ -1,0 +1,30 @@
+.form {
+
+  & .filepicker {
+      display: "inline-block";
+      text-align: center;
+      padding: 10px;
+      background-color: #2ec4b6;
+      letter-spacing: .5rem;
+      color: #fdfffc;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+
+    & input[type=file] {
+      display: none !important;
+    }
+  }
+
+  & .checkbox {
+    display: flex;
+  }
+
+  & textarea {
+   max-height: 150px;
+   rows: 5;
+   wrap: soft;
+   resize: vertical;
+  }
+}
+

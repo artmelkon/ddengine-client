@@ -1,0 +1,36 @@
+import React from "react";
+// import { withRouter } from "react-router-dom";
+import { Query } from "@apollo/client/react/components";
+
+import { GET_PRODUCT } from "../queries";
+import PSDIcon from "../assets/icons/svg/070-psd.svg";
+import PNGIcon from "../assets/icons/svg/115-png.svg";
+import classes from '../components/App.module.scss';
+
+const ProductPage = ({ match }) => {
+  const { id } = match.params;
+
+  return (
+    <Query query={GET_PRODUCT} variables={{ _id: id }}>
+      {({ loading, error, data }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error!</p>;
+        {/* console.log('product ', data) */}
+        const { getProduct: Product } = data;
+        return (
+          <div className={classes.app}>
+            <h2>Product Page </h2>
+            <h4>{Product.title}</h4>
+            {(Product.fileType === 'psd') && <img src={PSDIcon} />}
+            {(Product.fileType === 'png') && <img src={PNGIcon} />}
+            {/* <img src={`http://10.5.0.135:4040/images/${data.getProduct.imageUrl}`} /> */}
+            <p>Asset: {Product.imageUrl.concat('/', Product.fileName)}</p>
+            <p>Creator: {Product.creator.name}</p>
+          </div>
+        );
+      }}
+    </Query>
+  );
+};
+
+export default ProductPage;
