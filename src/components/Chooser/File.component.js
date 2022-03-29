@@ -12,7 +12,7 @@ const File = React.forwardRef((props, ref) => {
       draggableId={props.file._id}
       index={props.index}
       /* isDragDisabled will dsable dragging when the file in "GP Chooser" box */
-      // isDragDisabled={isDragDisabled}
+      isDragDisabled={isDragDisabled}
     >
       {(provided, snapshot) => {
         return (
