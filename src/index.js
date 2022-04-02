@@ -4,8 +4,6 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 import {BrowserRouter as Router} from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
-
 
 import { AuthProvider } from "./context/auth-context";
 import App from "./App";

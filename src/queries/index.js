@@ -63,16 +63,35 @@ export const GET_USER_PRODUCTS = gql`
     }
   }
 `;
-export const GEt_ALL_FILES = gql`
-  query GetAllFiles {
-    getAllFiles {
+export const GEt_FM_DIRECTORIES = gql`
+  query GetFMDirectories {
+    getFMDirectories {
       _id
+      name
+      dirpath
+      parent
+      ancestors
+      children
+      fileIds {
+        _id
+        filename
+      }
+      creatorId {
+        _id
+        name
+      }
+      iconId {
+        _id
+        name
+      }
+      createdAt
+      updatedAt
     }
   }
 `;
-export const GET_ALL_HUBFILES = gql`
-  query GetAllHubFiles {
-    getAllHubFiles {
+export const GET_FM_FILES = gql`
+  query GetFMFiles($isFileManager: Boolean!) {
+    getFMFiles(isFileManager: $isFileManager) {
       ...FileDetails
       iconId {
         _id

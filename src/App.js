@@ -9,14 +9,14 @@ import SignUp from "./components/Auth/SignUp.component";
 import HomePage from "./pages/HomePage";
 // import ProductItem from "./Product/ProductItem.component";
 import Search from "./components/UI/Search/Search.component";
-import ProfilePage from "./pages/ProfilePage";
-import Dashboard from "./pages/Dashboard";
+import ProfilePage from "./Profile";
+import Dashboard from "./Dashboard";
 import UploadPage from "./pages/UploadPage";
 // import ProductPage from "./pages/ProductPage";
-import FileManager from './pages/FileManager';
-import HubChooser from "./pages/HubChooser";
+import FileManager from './FileManager';
+import HubChooser from "./Chooser";
 
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = (props) => {
   const authCtx = useContext(AuthContext);
