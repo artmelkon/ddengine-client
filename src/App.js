@@ -34,8 +34,8 @@ const App = (props) => {
             <Route path="/filemanager" component={FileManager} />
           ) : (
             <Redirect to="/login" />
-          )}{" "}
-          {authCtx.user ? (
+          )}
+          {/* {authCtx.user ? (
             <Route path="/hubchooser" component={HubChooser} />
           ) : (
             <Redirect to="/login" />
@@ -49,7 +49,7 @@ const App = (props) => {
             <Route path="/profile" component={ProfilePage} />
           ) : (
             <Redirect to="/login" />
-          )}
+          )} */}
           <Redirect to="/" />
         </Switch>
       </Container>

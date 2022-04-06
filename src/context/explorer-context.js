@@ -1,31 +1,30 @@
 import React, { useState } from "react";
-// import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
-// import { GEt_FM_DIRECTORIES } from "../queries";
+import { GET_FOLDER } from "../queries";
 
 export const ExplorerContext = React.createContext({
-  // explorerData: [],
-  folderPath: ["whte"],
-  isDirOpen: false,
-  open: (arg,dirOpen) => {},
+  root: [],
+  getDirPath: (dirPath) => {},
+  isOpen: false,
+  open: (arg) => {},
 });
 
 export const ExplorerProvider = (props) => {
-  const [isOpened, setIsOpened] = useState(true);
-  // const { data } = useQuery(GEt_FM_DIRECTORIES);
-  // const directoryArr = data.getFMDirectories.map(dir => dir);
+  const [root, setRoot] = useState(null);
+  const [isOpen, setIsOpen] = useState(new Map());
+  // const {data} = useQuery(GEt_FM_DIRECTORIES);
 
-  // console.log("directoryArr", directoryArr);
-  let isDirOpen;
-  let folderPath = "World";
-  const open = (arg, dirOpen) => {
-    console.log("argument ", arg);
-    console.log("dir open ", dirOpen);
-    isDirOpen = dirOpen
+  const getChildren = (children) => {
+    console.log(children);
+  };
+
+  const open = (dirOpen) => {
+    // setIsOpen(dirOpen)
   };
 
   return (
-    <ExplorerContext.Provider value={{ folderPath, isDirOpen, open }}>
+    <ExplorerContext.Provider value={{ root, getChildren, open }}>
       {props.children}
     </ExplorerContext.Provider>
   );

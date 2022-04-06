@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import { itemFragments } from "./fragments";
+import { productFragments, fileFragments } from "./fragments";
 
 /* ============================= *\
               Queries
@@ -28,22 +28,17 @@ export const GET_CURRENT_USER = gql`
   }
 `;
 export const GET_USER_FILES = gql`
-  query GetUserFiles(
-    $creatorId: ID!
-    $isFileManager: Boolean!
-    $isFile: Boolean!
-  ) {
-    getUserFiles(
-      creatorId: $creatorId
-      isFileManager: $isFileManager
-      isFile: $isFile
-    ) {
-      ...itemDetails
+  query GetUserFiles($creatorId: ID!) {
+    getUserFiles(creatorId: $creatorId) {
+      _id
+      filename
       filesize
       filetype
       mimetype
       filepath
       imgUrl
+      parent
+      ancestors
       iconId {
         _id
       }
@@ -54,109 +49,149 @@ export const GET_USER_FILES = gql`
       updatedAt
     }
   }
-  ${itemFragments.item}
 `;
-export const GET_ITEMS = gql`
-  query GetItems($isFileManager: Boolean!) {
-    getItems(isFileManager: $isFileManager) {
+export const GET_USER_PRODUCTS = gql`
+  query GetUserProducts($creator: String!) {
+    getUserProducts(creator: $creator) {
       _id
-      itemname
-      itempath
+      title
+      imageUrl
+      fileName
+      fileType
+      message
+      createdAt
+    }
+  }
+`;
+export const GEt_FM_DIRECTORIES = gql`
+  query GetFMDirectories {
+    getFMDirectories {
+      _id
+      name
+      dirpath
       parent
       ancestors
-      isFile
-      iconId {
+      children
+      fileIds {
         _id
-        name
+        filename
       }
       creatorId {
         _id
         name
       }
+      iconId {
+        _id
+        name
+      }
       createdAt
       updatedAt
-      ... on File {
-        filesize
-        filetype
-        mimetype
-        itemurl
-        ownerId {
-          _id
-          name
-        }
-      }
-      ... on Directory {
-        children
-      }
     }
   }
 `;
 export const GET_FOLDER = gql`
-  query GetFolder($_id: ID!) {
-    getCurrentFolder(_id: $_id) {
-      ...itemDetails
-      ... on Directory {
-        children
+  query GetCurrentFolder($dirpath: String!) {
+    getCurrentFolder(dirpath: $dirpath) {
+      _id
+      name
+      dirpath
+      parent
+      ancestors
+      children
+      fileIds {
+        _id
+        filename
+      }
+      isDir
+      creatorId {
+        _id
+        name
+      }
+      iconId {
+        _id
+        name
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const GET_FM_FILES = gql`
+  query GetFMFiles($isFileManager: Boolean!) {
+    getFMFiles(isFileManager: $isFileManager) {
+      ...FileDetails
+      iconId {
+        _id
+      }
+      creatorId {
+        _id
+        name
+      }
+      ownerId {
+        _id
+        name
       }
     }
   }
-  ${itemFragments.item}
+  ${fileFragments.file}
+`;
+export const GET_ALL_PRODUCTS = gql`
+  query {
+    getAllProducts {
+      ...CompleteProduct
+      printer {
+        _id
+      }
+    }
+  }
+  ${productFragments.product}
 `;
 export const GET_FILE = gql`
   query GetFile($id: ID!) {
     getFile(_id: $id) {
-      ...ItemDetails
-      ... on File {
-        filesize
-        filetype
-        mimetype
-        itemurl
-        ownerId {
-          _id
-          name
-        }
+      _id
+      filename
+      filesize
+      filetype
+      mimetype
+      creatorId {
+        _id
       }
     }
   }
-  ${itemFragments.item}
 `;
-// export const GET_ACTIVE_PRODUCTS = gql`
-//   query GetActiveProducts {
-//     getActiveProducts {
-//       _id
-//       title
-//       imageUrl
-//       fileName
-//       creator {
-//         _id
-//       }
-//       printer {
-//         _id
-//       }
+// export const GET_PRODUCT = gql`
+//   query GetProduct($_id: ID!) {
+//     getProduct(_id: $_id) {
+//       ...CompleteProduct
 //     }
 //   }
+//   ${productFragments.product}
 // `;
+export const GET_ACTIVE_PRODUCTS = gql`
+  query GetActiveProducts {
+    getActiveProducts {
+      _id
+      title
+      imageUrl
+      fileName
+      creator {
+        _id
+      }
+      printer {
+        _id
+      }
+    }
+  }
+`;
 export const SEARCH_FILES = gql`
-  query SearchFiles(
-    $isFileManager: Boolean!
-    $searchTerm: String!
-    $isFile: Boolean!
-  ) {
-    searchFiles(
-      isFileManager: $isFileManager
-      searchTerm: $searchTerm
-      isFile: $isFile
-    ) {
-      ...ItemDetails
-      ... on File {
-        filesize
-        mimetype
-        filetype
-        itemurl
-        ownerId {
-          _id
-          name
-        }
+  query SearchFiles($searchTerm: String) {
+    searchFiles(searchTerm: $searchTerm) {
+      _id
+      filename
+      createdAt
+      creatorId {
+        _id
       }
     }
   }
