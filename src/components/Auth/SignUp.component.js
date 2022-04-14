@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 
-import { AuthContext } from "../../context/auth-context";
+import { AuthContext } from "../../store/auth-context";
 import { useForm } from "../../utils/hooks";
 import Card from "../UI/Card/Card.component";
 import Button from "../UI/Button/Button.component";

@@ -1,14 +1,16 @@
+import {useState, useEffect} from 'react'
 import ExplorerRoot from './ExplorerRoot';
-import { ExplorerProvider } from '../context/explorer-context';
+import { ExplorerProvider } from '../store/explorer-context';
+
 import "./index.scss";
+import { useParams } from 'react-router-dom';
 
-
-
-const FileManager = props => {
+const FileManager = () => {
+  let {id} = useParams()
 
   return (
     <ExplorerProvider>
-      <ExplorerRoot />
+      <ExplorerRoot currentFolder={id} />
     </ExplorerProvider>
   );
 };

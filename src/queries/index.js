@@ -56,51 +56,38 @@ export const GET_USER_FILES = gql`
   }
   ${itemFragments.item}
 `;
-export const GET_ITEMS = gql`
-  query GetItems($isFileManager: Boolean!) {
-    getItems(isFileManager: $isFileManager) {
+// export const GET_CURRENT_DIRECTORY = gql`
+//   query GetCurrentDirectory($parent: String!) {
+//     getCurrentDirectory(parent: $parent) {
+//       ...ItemDetails
+//       ... on File {
+//         filesize
+//         filetype
+//         mimetype
+//         itemurl
+//       }
+//       ... on Folder {
+//         children
+//       }
+//     }
+//   }
+//   ${itemFragments.item}
+// `;
+export const GET_FOLDER = gql`
+  query GetFolder($_id: ID!) {
+    getFolder(_id: $_id) {
       _id
       itemname
       itempath
       parent
+      parentpath
       ancestors
       isFile
-      iconId {
-        _id
-        name
-      }
-      creatorId {
-        _id
-        name
-      }
-      createdAt
-      updatedAt
-      ... on File {
-        filesize
-        filetype
-        mimetype
-        itemurl
-        ownerId {
-          _id
-          name
-        }
-      }
-      ... on Directory {
+      ... on Folder {
         children
       }
     }
   }
-`;
-export const GET_FOLDER = gql`
-  query GetFolder($_id: ID!) {
-    getCurrentFolder(_id: $_id) {
-      ...itemDetails
-      ... on Directory {
-        children
-      }
-    }
-  }
-  ${itemFragments.item}
 `;
 export const GET_FILE = gql`
   query GetFile($id: ID!) {
@@ -137,26 +124,11 @@ export const GET_FILE = gql`
 //   }
 // `;
 export const SEARCH_FILES = gql`
-  query SearchFiles(
-    $isFileManager: Boolean!
-    $searchTerm: String!
-    $isFile: Boolean!
-  ) {
-    searchFiles(
-      isFileManager: $isFileManager
-      searchTerm: $searchTerm
-      isFile: $isFile
-    ) {
-      ...ItemDetails
+  query SearchFiles($isFile: Boolean!, $searchTerm: String) {
+    searchFiles(isFile: $isFile, searchTerm: $searchTerm) {
       ... on File {
-        filesize
-        mimetype
-        filetype
-        itemurl
-        ownerId {
-          _id
-          name
-        }
+        itemname
+        _id
       }
     }
   }
@@ -175,8 +147,10 @@ export const GET_ALL_HUBCOLUMNS = gql`
       _id
       title
       fileIds {
-        _id
-        filename
+        ... on File {
+          _id
+          itemname
+        }
       }
     }
   }
@@ -193,6 +167,7 @@ export const GET_DND_HUBTABLE = gql`
         title
         fileIds {
           _id
+          filename
         }
       }
       columnOrder {
@@ -219,41 +194,10 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-export const CREATE_PRODUCT = gql`
-  mutation CreateProduct(
-    $title: String!
-    $message: String
-    $fileName: String!
-    $fileType: String!
-    $file: Upload!
-    $label: Boolean
-    $bars: Boolean
-    $creator: String!
-    $printer: String
-  ) {
-    createProduct(
-      title: $title
-      fileName: $fileName
-      fileType: $fileType
-      file: $file
-      message: $message
-      label: $label
-      bars: $bars
-      creator: $creator
-      printer: $printer
-    ) {
+export const DELETE_ITEM = gql `
+  mutation DeleteItem($_id: ID!) {
+    deleteItem(_id: $_id) {
       _id
-      title
-      message
-      imageUrl
-      fileName
-      fileType
-      label
-      bars
-      creator {
-        _id
-        name
-      }
     }
   }
 `;
@@ -270,19 +214,21 @@ export const UPLOAD_HUBFILE = gql`
       filesize: $filesize
       creatorId: $creatorId
     ) {
+      _id
       filename
-      filetype
-      filesize
-      mimetype
       filepath
-      parent
-      ancestors
+      filesize
+      filetype
+      mimetype
+      fileurl
       creatorId {
         _id
       }
-      iconId {
+      ownerId {
         _id
       }
+      updatedAt
+      createdAt
     }
   }
 `;

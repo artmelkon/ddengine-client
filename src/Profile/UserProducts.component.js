@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from "@apollo/client";
 
 import { GET_USER_FILES } from "../queries";
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../store/auth-context";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 
 import classes from '../App.module.scss';

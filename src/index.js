@@ -5,9 +5,9 @@ import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { AuthProvider } from "./context/auth-context";
+import { AuthProvider } from "./store/auth-context";
 import App from "./App";
-import "./assets/scss/style.scss";
+import "./style.scss";
 
 const httpLink = createUploadLink({
   uri: "http://localhost:4040/graphql",
@@ -29,7 +29,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache({
     possibleTypes: {
-      FileManager: ["File", "Directory"],
+      Directory: ["File", "Folder"],
     },
   }),
 });

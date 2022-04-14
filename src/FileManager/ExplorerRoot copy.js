@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {
   Container,
   Button,
@@ -14,18 +13,17 @@ import {
   FaCog,
   FaBars,
   FaEllipsisH,
+  FaLevelUpAlt,
 } from "react-icons/fa"; // for icons visit https://react-icons.github.io/react-icons
 import { Link } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 // import DirectoryBrowser from "./DirBrowser";
-import { GET_FOLDER, DELETE_ITEM } from "../queries";
+import { GET_FOLDER } from "../queries";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
-import FolderItems from "./FolderContent";
+import FolderItems from "./FolderItems";
 import Error from "../components/Error/Error.component";
 import { ExplorerContext } from "../store/explorer-context";
-import "./index.scss";
-
 
 const DisplayMenu = () => {
   return (
@@ -43,25 +41,12 @@ const DisplayMenu = () => {
 const ExplorerRoot = (props) => {
   const [data, setData] = useState([]);
   const [errors, setErrors] = useState([]);
-  const {currentFolder} = props;
-
-    let { id } = useParams();
-    console.log('useParams ', id);
-
-  console.log('current folder ', currentFolder)
   const { directoryState, dispatchDirectory } = useContext(ExplorerContext);
-
-
-  const {
-    loading,
-    error,
-    data: childrenData,
-  } = useQuery(GET_FOLDER, {
+  const { loading, error, data: childrenData } = useQuery(GET_FOLDER, {
     variables: {
-      _id: currentFolder,
+      _id: directoryState.homeRootId,
     },
   });
-  const [deleteItem] = useMutation(DELETE_ITEM);
 
   const [radioValue, setRadioValue] = useState("1");
 
@@ -70,6 +55,33 @@ const ExplorerRoot = (props) => {
       setData(childrenData.getFolder);
     }
   });
+
+  // const directoryChangeHandler = (item) => {
+  //   // reset count
+  //   setCount(1)
+  //   console.log("current folder explorer", item);
+  //   setCurrentDirectoryData(item.ancestors);
+  //   if (!item.isFile) {
+  //     dispatchDirectory({
+  //       type: "SET_CURRENT_FOLDER",
+  //       payload: {
+  //         currentFolder: item.itemname,
+  //       },
+  //     });
+  //   }
+  // };
+
+  // const levelUpHandler = () => {
+  //   // setCurrentDirectoryData(currentDirectoryData);
+  //     const ln = currentDirectoryData.length;
+  //   dispatchDirectory({
+  //     type: "SET_LEVEL_UP",
+  //     payload: {
+  //       currentFolder:
+  //         currentDirectoryData[ln - count],
+  //     },
+  //   });
+  // };
 
   const radios = [
     {
@@ -84,22 +96,12 @@ const ExplorerRoot = (props) => {
     },
   ];
 
-  const checkboxHandler = (e) => {
-    if(e.target.checked) {
-      dispatchDirectory({
-        type: "SET_ITEM_CHECKED",
-        payload: {
-          selected: e.target.checked,
-          selectedId: e.target.id,
-        },
-      });
-    }
-  }
-
   if (loading) return <LoadingSpinner />;
   if (error) return setErrors(error);
+  console.log("current directory ", directoryState.homeRootId);
+  console.log('folder data ', childrenData)
 
-  console.log('directory state ', directoryState)
+
   return (
     <Container className="flex-grow-1 light-style container-p-y">
       <Container className="container-m-nx container-m-ny bg-lightest mb-3">
@@ -159,8 +161,31 @@ const ExplorerRoot = (props) => {
         <hr className="m-0" />
 
         <Container className="file-manager-container file-manager-col-view">
+          <div className="file-manager-row-header">
+            <div className="file-item-name pb-2">Filename</div>
+            <div className="file-item-changed pb-2">Changed</div>
+          </div>
+          {/* <div key={"levelup"} className="file-item">
+            <FaLevelUpAlt className="file-item-icon file-item-level-up text-secondary" />
+
+            <Link
+              to="#"
+              className="file-item__name"
+            >
+              ..
+            </Link>
+          </div> */}
+          <div className="file-manager-row-header">
+            <div className="file-item-name pb-2">Filename</div>
+            <div className="file-item-changed pb-2">Changed</div>
+          </div>
           {data.map((item) => {
-            return <FolderItems key={item._id} {...item} onCheckboxCheck={checkboxHandler} />;
+            return (
+              <FolderItems
+                key={item._id}
+                {...item}
+              />
+            );
           })}
         </Container>
         {errors.map((err) => (
@@ -169,6 +194,6 @@ const ExplorerRoot = (props) => {
       </Container>
     </Container>
   );
-};;
+};
 
 export default ExplorerRoot;

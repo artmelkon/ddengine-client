@@ -1,34 +1,23 @@
 import { gql } from '@apollo/client';
 
-// export const productFragments = {
-//   product: gql`
-//     fragment CompleteProduct on Product {
-//       _id
-//       title
-//       imageUrl
-//       fileName
-//       message
-//       label
-//       bars
-//       creator {
-//         name
-//       }
-//     }
-//   `,
-// };
-
 export const itemFragments = {
   item: gql`
-    fragment itemDetails on FileManager {
+    fragment ItemDetails on Directory {
       _id
       itemname
       itempath
       parent
+      parentpath
       ancestors
-      isFileManager
       isFile
-      iconId
-      creatorId
+      iconId {
+        _id
+        name
+      }
+      creatorId {
+        _id
+        name
+      }
       createdAt
       updatedAt
     }

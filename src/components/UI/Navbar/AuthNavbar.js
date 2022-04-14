@@ -1,4 +1,4 @@
-import React from 'react'
+import {useContext} from 'react'
 import { NavLink } from "react-router-dom";
 
 const AuthNavbar = ({ classMenu }) => {
@@ -7,11 +7,11 @@ const AuthNavbar = ({ classMenu }) => {
       <NavLink to="/dashboard" className={classMenu}>
         DASHBOARD
       </NavLink>
-      <NavLink to="/filemanager" className={classMenu}>
+      <NavLink to="/root/6256e368fde0ae6f070b9eee" className={classMenu}>
         FILEMANAGER
       </NavLink>
-      <NavLink to="/hubchooser" className={classMenu}>
-        HUBCHOOSER
+      <NavLink to="/hubroot" className={classMenu}>
+        HUBMANAGER
       </NavLink>
       <NavLink to="/upload" className={classMenu}>
         UPLOAD

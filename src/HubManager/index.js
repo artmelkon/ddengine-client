@@ -16,7 +16,7 @@ import { initialData } from "../initial-data";
 /* SASS MODULE */
 import classes from "./index.module.scss";
 
-const OutputChooser = (props) => {
+const HubManager = (props) => {
   const [initState, setInitState] = useState(initialData);
   const { loading, error, data } = useQuery(GET_DND_HUBTABLE, {
     variables: { tableName: "dndtable" },
@@ -29,6 +29,7 @@ const OutputChooser = (props) => {
   const [removeFromHubColumn] = useMutation(REMOVE_FROM_HUBCOLUMN);
 
   const setDnDTable = (data) => {
+
     const { getDnDHubTable: Table } = data;
     const files = {};
     const columns = {};
@@ -38,27 +39,26 @@ const OutputChooser = (props) => {
      * structuring draggable items
      */
     Table.files.forEach((file) => {
+      console.log('file data ', file)
       files[file._id] = { _id: file._id, filename: file.filename };
     });
 
-    Table.columns.forEach((col) => {
+    Table.columns.forEach((col, ) => {
       columns[col._id] = {
         _id: col._id,
         title: col.title,
         fileIds: col.fileIds,
       };
+      console.log('col fileId ', col)
     });
-
-    // console.log("products ", products);
-    // console.log("columns before ", columns);
 
     const initTable = {
       files,
       columns,
       columnOrder,
     };
-
     setInitState(initTable);
+    console.log(' initTable ', initTable)
   };
 
   useEffect(() => {
@@ -69,7 +69,6 @@ const OutputChooser = (props) => {
 
   if (loading) return <LoadingSpinner />
   if (error) return <p>Error!!!</p>;
-  // console.log('get columns', data)
 
   const onDragStart = () => {
     document.body.style.color = "orange";
@@ -113,8 +112,7 @@ const OutputChooser = (props) => {
           [newColumn._id]: newColumn,
         },
       };
-      // console.log("new State ", { ...newState });
-      console.log("new Column ", newColumn);
+      console.log("new State ", { ...newState });
 
       const { _id, fileIds } = newColumn;
       updateHubColumn({
@@ -156,6 +154,7 @@ const OutputChooser = (props) => {
       },
     };
 
+
     removeFromHubColumn({
       variables: {
         _id: newStart._id,
@@ -176,14 +175,11 @@ const OutputChooser = (props) => {
   };
 
   const { columnOrder, columns, files } = initState;
-  console.log("init State ", initState);
-
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <div className={classes.Container}>
         {_.map(columnOrder, (columnId) => {
           const column = columns[columnId._id];
-          console.log(column);
           const file = _.map(column.fileIds, (file) => files[file._id]);
           return <Column key={column._id} column={column} files={file} />;
         })}
@@ -192,4 +188,4 @@ const OutputChooser = (props) => {
   );
 };
 
-export default OutputChooser;
+export default HubManager;

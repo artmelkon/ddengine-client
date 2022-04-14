@@ -6,6 +6,7 @@ import classes from "./Product.module.scss";
 import PSDIcon from "../assets/icons/png/070-psd.png";
 
 const File = React.forwardRef((props, ref) => {
+  console.log('props itemname ', props.file.filename)
   const isDragDisabled= props.column === 'GP Chooser';
   return (
     <Draggable

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 
 import { useForm } from "../../utils/hooks";
-import { AuthContext } from "../../context/auth-context";
+import { AuthContext } from "../../store/auth-context";
 import Card from "../UI/Card/Card.component";
 import FormInput from "../UI/FormInput/FormInput.component";
 import Button from "../UI/Button/Button.component";

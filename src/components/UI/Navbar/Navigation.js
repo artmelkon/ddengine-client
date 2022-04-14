@@ -3,7 +3,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
 import logo from "../../../assets/gp-color-logo.png";
-import { AuthContext } from "../../../context/auth-context";
+import { AuthContext } from "../../../store/auth-context";
 
 import classes from "./Navbar.module.scss";
 import AuthNavbar from "./AuthNavbar";

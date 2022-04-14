@@ -1,6 +1,6 @@
 import {useContext} from "react";
 
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../store/auth-context";
 // import UserInfo from '../components/Profile/UserInfo.component';
 // import UserProducts from "../components/Profile/UserProducts.component";
 // import Products from '../components/Product/Products.component';

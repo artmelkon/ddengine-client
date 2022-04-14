@@ -1,59 +1,31 @@
-import { useState, useContext, useCallback } from "react";
-import {
-  Button,
-  ButtonGroup,
-  SplitButton,
-  Dropdown,
-  DropdownButton,
-  InputGroup,
-} from "react-bootstrap";
-import { FaFolder, FaFolderOpen, FaEllipsisH, FaImage } from "react-icons/fa"; // for icons visit https://react-icons.github.io/react-icons
-import { Link } from "react-router-dom";
+import {useState} from 'react';
+import {useQuery} from '@apollo/client';
 
-const Folder = ({...item}) => {
-  console.log('props ', item)
+import {GET_FOLDER} from '../queries';
+import LoadingSpinner from "../components/UI/LoadingSpinner";
+import Error from "../components/Error/Error.component";
 
-  const [isOpen, setIsOpen] = useState(false);
-  const folderOpenHandler = useCallback(
-    (isOpen) => {
-      setIsOpen((c) => !c);
-    },
-    [isOpen]
-  );
 
-  console.log("is open? ", isOpen);
+const Folder = ({match}) => {
+  const [errors, setError] = useState([])
+  const {_id} = match.params
+  console.log(match)
+  const {loading, error, data} = useQuery(GET_FOLDER, {
+    variables: {
+      _id,
+    }
+  });
+  
+
+  if(loading) return <LoadingSpinner />;
+  if(error) return <Error errors={error}/>
 
   return (
-    <div  className="file-item">
-      <div className="file-item-select-bg" variant="primary" />
-      <label className="file-item-checkbox custom-control custom-checkbox">
-        <InputGroup.Checkbox className="custom-control-input" />
-        <span className="custom-control-label"></span>
-      </label>
-      <Link to="#" onClick={folderOpenHandler} className="file-item__link">
-        <div className="file-item__icon">
-          {item.isFile ? <FaImage color="grey" size={34} /> : !isOpen ? <FaFolder size={34} /> : <FaFolderOpen size={34} />}
-        </div>
-        <div className="file-item__title">{item.itemname}</div>
-      </Link>
-      <div className="file-item-changed">02/13/2018</div>
-      <Dropdown className="file-item-actions">
-        <Dropdown.Toggle
-          variant="default"
-          size="sm"
-          id="dropdown-basic"
-        >
-          <FaEllipsisH />
-        </Dropdown.Toggle>
-        <Dropdown.Menu align="end" style={{overflow: "hidden"}}>
-          <Dropdown.Item href="javascript:void(0)">Rename</Dropdown.Item>
-          <Dropdown.Item href="javascript:void(0)">Move</Dropdown.Item>
-          <Dropdown.Item href="javascript:void(0)">Copy</Dropdown.Item>
-          <Dropdown.Item href="javascript:void(0)"> Remove</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+    <div>
+      {_id}
+      {errors && <Error errors={errors} />}
     </div>
   );
-};
+}
 
 export default Folder;
