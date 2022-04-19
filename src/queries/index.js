@@ -194,9 +194,9 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-export const DELETE_ITEM = gql `
-  mutation DeleteItem($_id: ID!) {
-    deleteItem(_id: $_id) {
+export const DELETE_FILE = gql `
+  mutation DeleteFile($_id: ID!) {
+    deleteFile(_id: $_id) {
       _id
     }
   }

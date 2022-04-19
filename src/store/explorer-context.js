@@ -4,7 +4,7 @@ const initialDirState = {
   toBeDeleted: false,
   toBeMoved: false,
   selectedItem: {
-    selected: false,
+    isChecked: false,
     selectedId:null
   },
 };
@@ -20,11 +20,17 @@ const directoryReducer = (state, action) => {
       return {
         ...state,
         selectedItem: {
-          selected: action.payload.selected,
+          isChecked: action.payload.selected,
           selectedId: action.payload.selectedId,
         },
       };
-
+    case 'DELETE_SELECTED_ITEM':
+      return {
+        ...state,
+        selectedItem: {
+          selectedId: action.payload.selectedId
+        }
+      }
     default:
       return initialDirState;
   }

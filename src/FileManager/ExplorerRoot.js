@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 
 // import DirectoryBrowser from "./DirBrowser";
-import { GET_FOLDER, DELETE_ITEM } from "../queries";
+import { GET_FOLDER, DELETE_FILE } from "../queries";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import FolderItems from "./FolderContent";
 import Error from "../components/Error/Error.component";
@@ -43,14 +43,13 @@ const DisplayMenu = () => {
 const ExplorerRoot = (props) => {
   const [data, setData] = useState([]);
   const [errors, setErrors] = useState([]);
-  const {currentFolder} = props;
+  const { currentFolder } = props;
 
-    let { id } = useParams();
-    console.log('useParams ', id);
+  let { id } = useParams();
+  console.log("useParams ", id);
 
-  console.log('current folder ', currentFolder)
+  console.log("current folder ", currentFolder);
   const { directoryState, dispatchDirectory } = useContext(ExplorerContext);
-
 
   const {
     loading,
@@ -61,7 +60,7 @@ const ExplorerRoot = (props) => {
       _id: currentFolder,
     },
   });
-  const [deleteItem] = useMutation(DELETE_ITEM);
+  const [deleteFile] = useMutation(DELETE_FILE);
 
   const [radioValue, setRadioValue] = useState("1");
 
@@ -85,7 +84,7 @@ const ExplorerRoot = (props) => {
   ];
 
   const checkboxHandler = (e) => {
-    if(e.target.checked) {
+    if (e.target.checked) {
       dispatchDirectory({
         type: "SET_ITEM_CHECKED",
         payload: {
@@ -93,13 +92,41 @@ const ExplorerRoot = (props) => {
           selectedId: e.target.id,
         },
       });
+    } else {
+      dispatchDirectory({
+        type: "SET_ITEM_CHECKED",
+        payload: {
+          selected: false,
+          selectedId: null,
+        },
+      });
     }
+    // deleteSelectionHandler(deleteItem);
+  };
+
+  const moveToHandler = (e) => {
+    console.log('move to select folder ', e.target)
   }
+
+  const deleteItemHandler = (e) => {
+    // const {delete} = e.target.dataset.delete;
+
+    if (window.confirm("Are you sure you want to delete this?")) {
+      console.log("element ", e.target.dataset.delete);
+      // console.log("selected id ", directoryState);
+      deleteFile({
+        variables: {
+          _id: e.target.dataset.delete,
+        },
+        refetchQueries: [GET_FOLDER, "getFolder"],
+      });
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
   if (error) return setErrors(error);
 
-  console.log('directory state ', directoryState)
+  console.log("directory state ", directoryState);
   return (
     <Container className="flex-grow-1 light-style container-p-y">
       <Container className="container-m-nx container-m-ny bg-lightest mb-3">
@@ -160,7 +187,15 @@ const ExplorerRoot = (props) => {
 
         <Container className="file-manager-container file-manager-col-view">
           {data.map((item) => {
-            return <FolderItems key={item._id} {...item} onCheckboxCheck={checkboxHandler} />;
+            return (
+              <FolderItems
+                key={item._id}
+                {...item}
+                onCheckboxChange={checkboxHandler}
+                onDeleteEvent={deleteItemHandler}
+                onMovetoFolder={moveToHandler}
+              />
+            );
           })}
         </Container>
         {errors.map((err) => (
@@ -169,6 +204,6 @@ const ExplorerRoot = (props) => {
       </Container>
     </Container>
   );
-};;
+};
 
 export default ExplorerRoot;

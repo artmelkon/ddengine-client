@@ -1,36 +1,34 @@
 import { useState, useCallback } from "react";
-import {
-  Dropdown,
-  InputGroup,
-} from "react-bootstrap";
-import {
-  FaFolder,
-  FaFolderOpen,
-  FaEllipsisH,
-  FaImage,
-} from "react-icons/fa"; // for icons visit https://react-icons.github.io/react-icons
+import { Dropdown, InputGroup } from "react-bootstrap";
+import { FaFolder, FaFolderOpen, FaEllipsisH, FaImage } from "react-icons/fa"; // for icons visit https://react-icons.github.io/react-icons
 import { Link } from "react-router-dom";
 
 // import { ExplorerContext } from "../store/explorer-context";
 
-  const DisplayMenu = () => {
-    return (
+const DisplayMenu = (props) => {
+  const {_id} = props._id;
+  return (
     <Dropdown.Menu align="end">
       <Dropdown.Item href="#">Rename</Dropdown.Item>
       <Dropdown.Item href="#">Move</Dropdown.Item>
       <Dropdown.Item href="#">Copy</Dropdown.Item>
       <Dropdown.Divider />
-      <Dropdown.Item href="#" style={{ color: "red" }}>
+      <Dropdown.Item
+        href="#"
+        style={{ color: "red" }}
+        onClick={props.onDeleteEvent.bind()}
+        data-delete={props._id}
+        data-item = {props.isFile ? 'file' : 'folder'}
+      >
         Delete
       </Dropdown.Item>
     </Dropdown.Menu>
-    )
-  };
+  );
+};
 
 const FolderContent = (props) => {
-  console.log('item ', props)
+  console.log("item ", props);
   const [isOpen, setIsOpen] = useState(false);
-
 
   // const folderOpenHandler = useCallback(
   //   (isOpen) => {
@@ -39,12 +37,15 @@ const FolderContent = (props) => {
   //   [isOpen]
   // );
 
-
   return (
     <div className="file-item">
       <div className="file-item-select-bg" variant="primary" />
       <label className="file-item-checkbox custom-control custom-checkbox">
-        <InputGroup.Checkbox className="custom-control-input" onClick={props.onCheckboxCheck.bind()} id={props._id} />
+        <InputGroup.Checkbox
+          className="custom-control-input"
+          onChange={props.onCheckboxChange.bind()}
+          id={props._id}
+        />
         <span className="custom-control-label"></span>
       </label>
       <Link
@@ -67,7 +68,7 @@ const FolderContent = (props) => {
         <Dropdown.Toggle variant="default" size="sm" id="dropdown-basic">
           <FaEllipsisH />
         </Dropdown.Toggle>
-        <DisplayMenu />
+        <DisplayMenu {...props} />
       </Dropdown>
     </div>
   );
