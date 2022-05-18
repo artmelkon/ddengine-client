@@ -6,15 +6,13 @@ import { AuthContext } from "./store/auth-context";
 import Navigation from "./components/UI/Navbar/Navigation";
 import SignIn from "./components/Auth/SignIn.component";
 import SignUp from "./components/Auth/SignUp.component";
-import HomePage from "./Home";
-// import ProductItem from "./Product/ProductItem.component";
+import HomePage from "./pages/Home";
 import Search from "./components/UI/Search";
-import ProfilePage from "./Profile";
-import Dashboard from "./Dashboard";
+import ProfilePage from "./pages/Profile"
 import Upload from "./components/UI/Upload";
-import FileManager from './FileManager';
-import Folder from './FileManager/Folder';
-import HubManager from "./HubManager";
+import FileManager from './pages/FileManager';
+// import Folder from './FileManager/Folder';
+import HubManager from "./pages/HubManager";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -28,7 +26,6 @@ const App = (props) => {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/search" component={Search} />
-          <Route path="/dashboard" component={Dashboard} />
           {!authCtx.user && <Route path="/login" component={SignIn} />}
           {!authCtx.user && <Route path="/register" component={SignUp} />}
           {authCtx.user ? (

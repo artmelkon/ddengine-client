@@ -2,9 +2,9 @@ import React, {useContext, useState } from "react";
 import { useQuery} from '@apollo/client';
 import { Row, Col, Card, ListGroup, ListGroupItem } from "react-bootstrap";
 
-import { AuthContext } from "../store/auth-context";
-import { GET_CURRENT_USER } from "../queries";
-import Error from '../components/Error/Error.component';
+import { AuthContext } from "../../store/auth-context";
+import { GET_CURRENT_USER } from "../../queries";
+import Error from '../Error/Error.component';
 
 
 const UserInfo = () => {

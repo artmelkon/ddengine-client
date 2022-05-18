@@ -9,12 +9,12 @@ import {
   ADD_TO_HUBCOLUMN,
   REMOVE_FROM_HUBCOLUMN,
 } from "../queries";
-import Column from "./Column.component";
+import Column from "../components/HubManager/Column.component";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import { initialData } from "../initial-data";
 
 /* SASS MODULE */
-import classes from "./index.module.scss";
+import classes from "./HubManager.module.scss";
 
 const HubManager = (props) => {
   const [initState, setInitState] = useState(initialData);

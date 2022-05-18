@@ -1,13 +1,13 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
-import Handle from "../components/UI/Handle/Handle.component";
-import classes from "./Product.module.scss";
-import PSDIcon from "../assets/icons/png/070-psd.png";
+import Handle from "../UI/Handle/Handle.component";
+import classes from "./File.module.scss";
+import PSDIcon from "../../assets/icons/png/070-psd.png";
 
 const File = React.forwardRef((props, ref) => {
-  console.log('props itemname ', props.file.filename)
-  const isDragDisabled= props.column === 'GP Chooser';
+  console.log("props itemname ", props.file.filename);
+  const isDragDisabled = props.column === "GP Chooser";
   return (
     <Draggable
       draggableId={props.file._id}

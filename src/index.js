@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { AuthProvider } from "./store/auth-context";
 import App from "./App";
-import "./style.scss";
+import "./index.scss";
 
 const httpLink = createUploadLink({
   uri: "http://localhost:4040/graphql",

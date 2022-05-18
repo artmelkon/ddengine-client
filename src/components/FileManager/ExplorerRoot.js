@@ -19,12 +19,12 @@ import { Link } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 
 // import DirectoryBrowser from "./DirBrowser";
-import { GET_FOLDER, DELETE_FILE } from "../queries";
-import LoadingSpinner from "../components/UI/LoadingSpinner";
+import { GET_FOLDER, DELETE_FILE } from "../../queries";
+import LoadingSpinner from "../UI/LoadingSpinner";
 import FolderItems from "./FolderContent";
-import Error from "../components/Error/Error.component";
-import { ExplorerContext } from "../store/explorer-context";
-import "./index.scss";
+import Error from "../Error/Error.component";
+import { ExplorerContext } from "../../store/explorer-context";
+// import "./index.scss";
 
 
 const DisplayMenu = () => {

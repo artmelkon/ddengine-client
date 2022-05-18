@@ -17,7 +17,12 @@ const Navigation = (props) => {
   };
 
   return (
-    <Navbar bg="primary" expand="lg" variant="dark" className={classes.header__menu}>
+    <Navbar
+      bg="primary"
+      expand="lg"
+      variant="dark"
+      className={classes.header__menu}
+    >
       <Container>
         <Navbar.Brand className={classes["header__logo-link"]} href="/">
           <img
